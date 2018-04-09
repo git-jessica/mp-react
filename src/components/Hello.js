@@ -11,6 +11,8 @@ export default class hello extends Component {
         return(
             <div>
                 <h1 style={style}>welcome to my......</h1>
+                <br/>
+                <img/>
             </div>
         )
     }
