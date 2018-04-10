@@ -2,10 +2,16 @@
  * Created by sky on 2018/4/7.
  */
 var path = require('path');
+var webpack=require('webpack');
 
 module.exports = {
     //入口文件
-    entry: path.resolve(__dirname,'src/js/app.js'),
+    entry: {
+        app:path.resolve(__dirname,'src/js/app.js'),
+        vendors:['react','react-dom']
+    },
+        //path.resolve(__dirname,'src/js/app.js'),
+
 
     //输出配置
     output: {
@@ -18,7 +24,8 @@ module.exports = {
                 test: /\.jsx?$/, // 用正则来匹配文件路径，这段意思是匹配 js 或者 jsx
                 loader: 'babel',// 加载模块 "babel" 是 "babel-loader" 的缩写
                 query: {
-                    presets: ['es2015', 'react']
+                    presets: ['es2015', 'react'],
+                    compact:false
                 }
             },
             {
@@ -28,11 +35,12 @@ module.exports = {
             {
                 test: /\.scss$/,
                 loader: 'style!css!sass'
-            },// Run both loaders
+            },
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url?limit=25000'
             }
         ]
-    }
+    },
+    plugins: [new webpack.optimize.CommonsChunkPlugin({name: 'vendors', filename: 'vendors.js'}),]
 };
