@@ -1,19 +1,23 @@
-/**
- * Created by sky on 2018/4/7.
- */
 var path = require('path');
 var webpack=require('webpack');
 
+// æå–cssæ–‡ä»¶çš„æ’ä»¶
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+// è‡ªåŠ¨ç”Ÿæˆindexé¡µé¢
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+//
 module.exports = {
-    //Èë¿ÚÎÄ¼ş
+    //å…¥å£æ–‡ä»¶
     entry: {
         app:path.resolve(__dirname,'src/js/app.js'),
         vendors:['react','react-dom']
     },
-        //path.resolve(__dirname,'src/js/app.js'),
+    //path.resolve(__dirname,'src/js/app.js'),
 
 
-    //Êä³öÅäÖÃ
+    //è¾“å‡ºé…ç½®
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
@@ -21,16 +25,16 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.jsx?$/, // ÓÃÕıÔòÀ´Æ¥ÅäÎÄ¼şÂ·¾¶£¬Õâ¶ÎÒâË¼ÊÇÆ¥Åä js »òÕß jsx
-                loader: 'babel',// ¼ÓÔØÄ£¿é "babel" ÊÇ "babel-loader" µÄËõĞ´
+                test: /\.jsx?$/, // ç”¨æ­£åˆ™æ¥åŒ¹é…æ–‡ä»¶è·¯å¾„ï¼Œè¿™æ®µæ„æ€æ˜¯åŒ¹é… js æˆ–è€… jsx
+                loader: 'babel',// åŠ è½½æ¨¡å— "babel" æ˜¯ "babel-loader" çš„ç¼©å†™
                 query: {
                     presets: ['es2015', 'react'],
                     compact:false
                 }
-            },
-            {
-                test: /\.css$/, // Only .css files
-                loader: 'style!css'
+            },{
+                test:/\.css$/,
+                //loader: 'style!css'
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
             },
             {
                 test: /\.scss$/,
@@ -38,9 +42,39 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg)$/,
-                loader: 'url?limit=25000'
+                loader: 'url?limit=25000&name=images/[name].[ext]'
             }
         ]
     },
-    plugins: [new webpack.optimize.CommonsChunkPlugin({name: 'vendors', filename: 'vendors.js'}),]
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({name: 'vendors', filename: 'vendors.js'}),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
+        new ExtractTextPlugin("app.css"),
+        // è‡ªåŠ¨ç”Ÿæˆhtmlæ’ä»¶
+        new HtmlWebpackPlugin({
+            template: './src/template.html',
+            htmlWebpackPlugin: {
+                "files": {
+                    "css": ["app.css"],
+                    "js": ["vendors.js","bundle.js"]
+                }
+            },
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            }
+        }),
+        // å®šä¹‰ç”Ÿäº§ç¯å¢ƒå˜é‡ï¼Œnodeè‡ªåŠ¨ä¼˜åŒ–é¡¹ç›®ä»£ç 
+        new webpack.DefinePlugin({
+            //å»æ‰reactä¸­çš„è­¦å‘Šï¼Œreactä¼šè‡ªå·±åˆ¤æ–­
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
+    ]
 };

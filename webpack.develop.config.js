@@ -2,7 +2,7 @@
  * Created by sky on 2018/4/7.
  */
 var path = require('path');
-
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 module.exports = {
     //入口文件
     entry: [
@@ -39,7 +39,10 @@ module.exports = {
             }
 
         ]
-    }
+    },
+    plugins: [
+        new OpenBrowserPlugin({url: 'http://localhost:8080/', browser: 'chrome'})
+    ]
 
 
 };

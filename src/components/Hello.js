@@ -10,7 +10,7 @@ export default class hello extends Component {
     render(){
         return(
             <div>
-                <h1 style={style}>welcome to my......</h1>
+                <h1 style={style}>welcoe to my......</h1>
                 <br/>
                 <img/>
             </div>

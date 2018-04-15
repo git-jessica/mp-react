@@ -1,24 +1,24 @@
-// ÓÃgulp¿ØÖÆÖ´ĞĞÁ÷³Ì£¬ÓÃwebpack´¦Àí¸´ÔÓÒıÓÃµÄÒÀÀµ
+// gulpçš„ä»»åŠ¡æ˜¯æ§åˆ¶æ‰§è¡Œæµç¨‹ï¼Œwebpackçš„ä»»åŠ¡æ˜¯å¤„ç†å¤æ‚å¼•ç”¨çš„ä¾èµ–
 var gulp = require('gulp');
-// É¾³ıÎÄ¼şºÍÄ¿Â¼
+// åˆ é™¤æ–‡ä»¶å’Œç›®å½•
 var del = require('del');
-// °´Ë³ĞòÖ´ĞĞ
+// æŒ‰é¡ºåºæ‰§è¡Œ
 var gulpSequence = require('gulp-sequence');
-// ÒıÈëwebpackµÄ±¾µØÄ£¿é
+// å¼•å…¥webpackçš„æœ¬åœ°æ¨¡å—
 var webpack = require("webpack");
-// ÒıÈëwbpackµÄÅäÖÃÎÄ¼ş
+// å¼•å…¥wbpackçš„é…ç½®æ–‡ä»¶
 var webpackConfig = require("./webpack.publish.config.js");
 
 gulp.task('default',['sequence'], function() {
-    console.log("ÏîÄ¿¹¹½¨³É¹¦");
+    console.log("é¡¹ç›®æ„å»ºæˆåŠŸ");
 });
 
-// Á÷³Ì¿ØÖÆ£¬Ö´ĞĞÈÎÎñµÄË³Ğò
+// æµç¨‹æ§åˆ¶
 gulp.task('sequence', gulpSequence('clean','webpack'));
 
-// É¾³ıÎÄ¼şºÍÎÄ¼ş¼Ğ
+// åˆ é™¤æ–‡ä»¶å’Œæ–‡ä»¶å¤¹
 gulp.task('clean', function(cb) {
-    //del('dist);// Èç¹ûÖ±½Ó¸ødistµÄÄ¿Â¼£¬ÏîÄ¿Æô¶¯µÄË³Ğò»¹ÓĞÇå³ı½á¹û»á±¨´í£¬ËùÒÔÒªĞ´µÄ¸üÏêÏ¸Ò»Ğ©
+    //del('dist);// å¦‚æœç›´æ¥ç»™distçš„ç›®å½•ï¼Œé¡¹ç›®å¯åŠ¨çš„é¡ºåºè¿˜æœ‰æ¸…é™¤ç»“æœä¼šæŠ¥é”™ï¼Œæ‰€ä»¥è¦å†™çš„æ›´è¯¦ç»†ä¸€äº›
     del(['dist/*.js','dist/*.css','dist/images','dist/*.html']);
     setTimeout(function(){
         return cb();
@@ -27,14 +27,14 @@ gulp.task('clean', function(cb) {
 });
 
 
-//Ğ´Ò»¸öÈÎÎñ£¬ÔÚgulpÖĞÖ´ĞĞwebpackµÄ¹¹½¨
-// gulp ¸ºÔğÈÎÎñÁ÷³Ì²¿·ÖµÄ²Ù×÷£¬webpack¸ºÔğ¸´ÔÓÄ£¿éÏµÍ³µÄÒıÓÃ·ÖÀë¹¤×÷
+//å†™ä¸€ä¸ªä»»åŠ¡ï¼Œåœ¨gulpä¸­æ‰§è¡Œwebpackçš„æ„å»º
+// gulp è´Ÿè´£ä»»åŠ¡æµç¨‹éƒ¨åˆ†çš„æ“ä½œï¼Œwebpackè´Ÿè´£å¤æ‚æ¨¡å—ç³»ç»Ÿçš„å¼•ç”¨åˆ†ç¦»å·¥ä½œ
 gulp.task('webpack', function(cb) {
     setTimeout(function(){
-        // Ö´ĞĞwebpackµÄ¹¹½¨ÈÎÎñ
+        // æ‰§è¡Œwebpackçš„æ„å»ºä»»åŠ¡
         webpack(webpackConfig, function (err, stats) {
             if (err){
-                console.log("¹¹½¨ÈÎÎñÊ§°Ü");
+                console.log("æ„å»ºä»»åŠ¡å¤±è´¥");
             }else{
                 cb();
             }
